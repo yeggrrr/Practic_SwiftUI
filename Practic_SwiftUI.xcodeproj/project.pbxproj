@@ -12,6 +12,7 @@
 		681690792C85730C0062C50F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 681690782C85730C0062C50F /* Assets.xcassets */; };
 		6816907C2C85730C0062C50F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6816907B2C85730C0062C50F /* Preview Assets.xcassets */; };
 		681690832C857AFF0062C50F /* ProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690822C857AFF0062C50F /* ProfileSettingView.swift */; };
+		681690882C859E450062C50F /* SecondProfileSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690872C859E450062C50F /* SecondProfileSettingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		681690782C85730C0062C50F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6816907B2C85730C0062C50F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		681690822C857AFF0062C50F /* ProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingView.swift; sourceTree = "<group>"; };
+		681690872C859E450062C50F /* SecondProfileSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondProfileSettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 				681690782C85730C0062C50F /* Assets.xcassets */,
 				6816907A2C85730C0062C50F /* Preview Content */,
 				681690822C857AFF0062C50F /* ProfileSettingView.swift */,
+				681690872C859E450062C50F /* SecondProfileSettingView.swift */,
 			);
 			path = Practic_SwiftUI;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				681690832C857AFF0062C50F /* ProfileSettingView.swift in Sources */,
 				681690772C85730B0062C50F /* ContentView.swift in Sources */,
 				681690752C85730B0062C50F /* Practic_SwiftUIApp.swift in Sources */,
+				681690882C859E450062C50F /* SecondProfileSettingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
