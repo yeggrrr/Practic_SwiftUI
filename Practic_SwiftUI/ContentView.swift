@@ -9,13 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        NavigationView() {
+            VStack {
+                Image(.launch)
+                    .padding(70)
+                Image(.launchPoster)
+                Spacer()
+                NavigationLink {
+                    ProfileSettingView()
+                } label: {
+                    Text("시작하기")
+                        .frame(maxWidth: .infinity)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .padding()
+                        .background(.blue)
+                        .clipShape(.capsule)
+                        .padding()
+                        
+                }
+            }
         }
-        .padding()
     }
 }
 
