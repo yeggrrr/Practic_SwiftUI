@@ -10,21 +10,24 @@ import SwiftUI
 struct MBTI: Hashable, Identifiable {
     let id = UUID()
     let mbti: String
+    let Index: Int
+    var state: Bool
 }
 
 struct ProfileSettingView: View {
     @State private var riceText = ""
     
     var columns: [GridItem] = Array(repeating: .init(.fixed(70), spacing: 5, alignment: .trailing), count: 4)
-    let mbti = [
-        MBTI(mbti: "E"),
-        MBTI(mbti: "I"),
-        MBTI(mbti: "S"),
-        MBTI(mbti: "N"),
-        MBTI(mbti: "F"),
-        MBTI(mbti: "T"),
-        MBTI(mbti: "P"),
-        MBTI(mbti: "J")
+    
+    @State private var mbti = [
+        MBTI(mbti: "E", Index: 0, state: false),
+        MBTI(mbti: "I", Index: 1, state: false),
+        MBTI(mbti: "S", Index: 2, state: false),
+        MBTI(mbti: "N", Index: 3, state: false),
+        MBTI(mbti: "F", Index: 4, state: false),
+        MBTI(mbti: "T", Index: 5, state: false),
+        MBTI(mbti: "P", Index: 6, state: false),
+        MBTI(mbti: "J", Index: 7, state: false)
     ]
     
     var body: some View {
@@ -57,21 +60,21 @@ struct ProfileSettingView: View {
                     
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(mbti, id: \.id) { item in
-                            
                             ZStack {
                                 Button(action: {
-                                    print("클릭됨!")
+                                    mbti[item.Index].state.toggle()
                                 }, label: {
                                     Text(item.mbti)
                                         .frame(width: 60, height: 60)
                                         .foregroundStyle(.black)
+                                        .background(item.state ? .blue : .white)
+                                        .clipShape(Circle(), style: FillStyle())
+                                        .background(.white)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 30)
                                                 .stroke(.black, lineWidth: 1)
                                         )
                                 })
-                                
-                                
                             }
                             .padding(.horizontal)
                         }
@@ -90,8 +93,7 @@ struct ProfileSettingView: View {
                         .padding()
                         .background(.blue)
                         .clipShape(.capsule)
-                        .padding()
-                        
+                        .padding()       
                 }
             }
             .navigationTitle("PROFILE SETTING")
