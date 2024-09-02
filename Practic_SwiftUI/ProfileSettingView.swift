@@ -57,15 +57,21 @@ struct ProfileSettingView: View {
                     
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(mbti, id: \.id) { item in
-                        
+                            
                             ZStack {
-                                Text(item.mbti)
-                                    .frame(width: 60, height: 60)
-                                    .foregroundStyle(.black)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 30)
-                                            .stroke(.black, lineWidth: 1)
-                                    )
+                                Button(action: {
+                                    print("클릭됨!")
+                                }, label: {
+                                    Text(item.mbti)
+                                        .frame(width: 60, height: 60)
+                                        .foregroundStyle(.black)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 30)
+                                                .stroke(.black, lineWidth: 1)
+                                        )
+                                })
+                                
+                                
                             }
                             .padding(.horizontal)
                         }
@@ -87,7 +93,6 @@ struct ProfileSettingView: View {
                         .padding()
                         
                 }
-                
             }
             .navigationTitle("PROFILE SETTING")
     }

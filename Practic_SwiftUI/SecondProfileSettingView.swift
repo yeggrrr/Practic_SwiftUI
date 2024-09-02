@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SecondProfileSettingView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("가입되었습니다.")
+            .font(.system(size: 19, weight: .black, design: .default))
             .navigationTitle("PROFILE SETTING")
     }
     
