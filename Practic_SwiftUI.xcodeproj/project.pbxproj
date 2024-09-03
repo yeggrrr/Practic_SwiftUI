@@ -19,6 +19,7 @@
 		681690A22C87229A0062C50F /* CoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A12C87229A0062C50F /* CoinView.swift */; };
 		681690A42C87260E0062C50F /* UpbitAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A32C87260E0062C50F /* UpbitAPI.swift */; };
 		681690A62C8726730062C50F /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A52C8726730062C50F /* Banner.swift */; };
+		681690A82C872A720062C50F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A72C872A720062C50F /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		681690A12C87229A0062C50F /* CoinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinView.swift; sourceTree = "<group>"; };
 		681690A32C87260E0062C50F /* UpbitAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitAPI.swift; sourceTree = "<group>"; };
 		681690A52C8726730062C50F /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
+		681690A72C872A720062C50F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				681690A12C87229A0062C50F /* CoinView.swift */,
 				681690A32C87260E0062C50F /* UpbitAPI.swift */,
 				681690A52C8726730062C50F /* Banner.swift */,
+				681690A72C872A720062C50F /* DetailView.swift */,
 			);
 			path = Practic_SwiftUI;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 				6816908A2C85ABAF0062C50F /* SearchTableView.swift in Sources */,
 				681690772C85730B0062C50F /* ContentView.swift in Sources */,
 				681690752C85730B0062C50F /* Practic_SwiftUIApp.swift in Sources */,
+				681690A82C872A720062C50F /* DetailView.swift in Sources */,
 				681690902C86938C0062C50F /* PracticeView.swift in Sources */,
 				681690A22C87229A0062C50F /* CoinView.swift in Sources */,
 				681690A62C8726730062C50F /* Banner.swift in Sources */,
