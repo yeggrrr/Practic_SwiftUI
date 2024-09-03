@@ -12,6 +12,12 @@ struct CoinView: View {
     @State private var banner = Banner()
     @State private var market: Markets = []
     
+    var filteredDatas: [Market] {
+        return searchText.isEmpty ? market : market.filter {
+            $0.koreanName.contains(searchText)
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -85,7 +91,7 @@ struct CoinView: View {
     
     func listView() -> some View {
         LazyVStack {
-            ForEach(market, id: \.self) { item in
+            ForEach(filteredDatas, id: \.self) { item in
                 rowView(item)
             }
         }
