@@ -7,90 +7,113 @@
 
 import SwiftUI
 
-struct Title: Hashable, Identifiable {
+struct PosterSection: Hashable, Identifiable {
     let id = UUID()
-    let title: String
+    var title: String
+    let imageURLs: [URL?]
 }
 
-struct MyRandomImageView: View {
-    
-    let titleList: [Title] = [
-        Title(title: "첫번째 섹션"),
-        Title(title: "두번째 섹션"),
-        Title(title: "세번째 섹션"),
-        Title(title: "네번째 섹션")
-    ]
+struct MyRandomMainView: View {
+    @State private var posterSections: [PosterSection] = []
     
     var body: some View {
         NavigationView {
             ScrollView {
-                ForEach(titleList, id: \.id) { item in
-                    SectionTitleView(title: item.title)
-                    HorizontalImageView()
+                ForEach(posterSections, id: \.id) { section in
+                    SectionView(posterSection: section)
                 }
             }
             .navigationTitle("My Random Image")
         }
+        .onAppear(perform: onAppear)
     }
-}
-
-struct SectionTitleView: View {
-    var title: String
     
-    var body: some View {
-        VStack {
-            Text(title)
-                .font(.title)
-                .bold()
-                .padding(.horizontal)
-                .frame(maxWidth: .infinity, alignment: .leading)
+    private func onAppear() {
+        posterSections = [
+            PosterSection(title: "첫번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6)),
+            PosterSection(title: "두번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6)),
+            PosterSection(title: "세번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6)),
+            PosterSection(title: "네번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6))
+        ]
+    }
+    
+    private func getSectionImageURLs(rowCount: Int) -> [URL?] {
+        var randomNumbers: [Int] = []
+        while Set(randomNumbers).count < rowCount {
+            randomNumbers.append(Int.random(in: 1...100))
         }
-        .padding(.vertical)
+        let urls = randomNumbers.map { URL(string: "https://picsum.photos/id/\($0)/200/300") }
+        return urls
     }
 }
 
-struct HorizontalImageView: View {
-    let url = URL(string: "https://picsum.photos/200/300")
-    
-    var body: some View {
+extension MyRandomMainView {
+    struct SectionView: View {
+        let posterSection: PosterSection
         
-        ScrollView(.horizontal) {
-            LazyHStack {
-                ForEach(0..<6) { item in
-                    PosterView()
+        var body: some View {
+            VStack {
+                Text(posterSection.title)
+                    .font(.title)
+                    .bold()
+                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                ScrollView(.horizontal) {
+                    LazyHStack {
+                        ForEach(posterSection.imageURLs, id: \.?.absoluteString) { url in
+                            NavigationLink(
+                                destination: {
+                                    PosterDetailView(
+                                        title: posterSection.title,
+                                        imageURL: url)
+                                },
+                                label: {
+                                    PosterView(imageURL: url)
+                                })
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
-            .padding(.horizontal)
         }
-    }
-}
-
-struct PosterView: View {
-    let url = URL(string: "https://picsum.photos/200/300")
-    
-    var body: some View {
-        AsyncImage(url: url) { data in
-            switch data {
-            case .empty:
-                ProgressView()
-                    .frame(width: 120, height: 180)
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 120, height: 180)
-                    .clipShape(.buttonBorder)
-            case .failure(_):
-                Image(systemName: "star")
-                    .frame(width: 120, height: 180)
-            @unknown default:
-                Image(systemName: "star")
-                    .frame(width: 120, height: 180)
+        
+        private struct PosterDetailView: View {
+            let title: String
+            let imageURL: URL?
+            
+            var body: some View {
+                VStack {
+                    Text(title)
+                        .font(.title)
+                    PosterView(imageURL: imageURL)
+                    Text(imageURL?.absoluteString ?? "-")
+                }
+            }
+        }
+        
+        private struct PosterView: View {
+            let imageURL: URL?
+            
+            var body: some View {
+                AsyncImage(url: imageURL) { data in
+                    switch data {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(.buttonBorder)
+                    default:
+                        Image(systemName: "star")
+                    }
+                }
+                .frame(width: 120, height: 180)
             }
         }
     }
 }
 
 #Preview {
-    MyRandomImageView()
+    MyRandomMainView()
 }
