@@ -20,6 +20,7 @@
 		681690A42C87260E0062C50F /* UpbitAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A32C87260E0062C50F /* UpbitAPI.swift */; };
 		681690A62C8726730062C50F /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A52C8726730062C50F /* Banner.swift */; };
 		681690A82C872A720062C50F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A72C872A720062C50F /* DetailView.swift */; };
+		681690AE2C88531A0062C50F /* MyRandomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690AD2C88531A0062C50F /* MyRandomImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		681690A32C87260E0062C50F /* UpbitAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpbitAPI.swift; sourceTree = "<group>"; };
 		681690A52C8726730062C50F /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		681690A72C872A720062C50F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		681690AD2C88531A0062C50F /* MyRandomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRandomImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				681690A32C87260E0062C50F /* UpbitAPI.swift */,
 				681690A52C8726730062C50F /* Banner.swift */,
 				681690A72C872A720062C50F /* DetailView.swift */,
+				681690AD2C88531A0062C50F /* MyRandomImageView.swift */,
 			);
 			path = Practic_SwiftUI;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				681690A62C8726730062C50F /* Banner.swift in Sources */,
 				6816908E2C85B4C70062C50F /* ButtonTestView.swift in Sources */,
 				681690882C859E450062C50F /* SecondProfileSettingView.swift in Sources */,
+				681690AE2C88531A0062C50F /* MyRandomImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +312,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Practic_SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = 3G6N8FDHBM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -341,6 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Practic_SwiftUI/Preview Content\"";
+				DEVELOPMENT_TEAM = 3G6N8FDHBM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
