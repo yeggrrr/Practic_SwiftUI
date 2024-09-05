@@ -15,17 +15,21 @@ struct PosterSection: Hashable, Identifiable {
 
 struct MyRandomMainView: View {
     @State private var posterSections: [PosterSection] = []
+    @State private var changedSectionTitle: (id: UUID, title: String)?
     
     var body: some View {
         NavigationView {
             ScrollView {
                 ForEach(posterSections, id: \.id) { section in
-                    SectionView(posterSection: section)
+                    SectionView(
+                        posterSection: section,
+                        changedSectionTitle: $changedSectionTitle)
                 }
             }
             .navigationTitle("My Random Image")
         }
         .onAppear(perform: onAppear)
+        .onChange(of: changedSectionTitle?.id, sectionTitleChanged)
     }
     
     private func onAppear() {
@@ -35,6 +39,23 @@ struct MyRandomMainView: View {
             PosterSection(title: "세번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6)),
             PosterSection(title: "네번째 섹션", imageURLs: getSectionImageURLs(rowCount: 6))
         ]
+    }
+    
+    private func sectionTitleChanged() {
+        guard changedSectionTitle != nil else { return }
+        var index = 0
+        
+        for i in 0..<posterSections.count {
+            if posterSections[i].id == changedSectionTitle?.id {
+                index = i
+                break
+            }
+        }
+        
+        if let newTitle = changedSectionTitle?.title {
+            posterSections[index].title = newTitle
+        }
+        changedSectionTitle = nil
     }
     
     private func getSectionImageURLs(rowCount: Int) -> [URL?] {
@@ -50,6 +71,7 @@ struct MyRandomMainView: View {
 extension MyRandomMainView {
     struct SectionView: View {
         let posterSection: PosterSection
+        @Binding var changedSectionTitle: (id: UUID, title: String)?
         
         var body: some View {
             VStack {
@@ -65,7 +87,9 @@ extension MyRandomMainView {
                                 destination: {
                                     PosterDetailView(
                                         title: posterSection.title,
-                                        imageURL: url)
+                                        id: posterSection.id,
+                                        imageURL: url,
+                                        changedSectionTitle: $changedSectionTitle)
                                 },
                                 label: {
                                     PosterView(imageURL: url)
@@ -79,15 +103,31 @@ extension MyRandomMainView {
         
         private struct PosterDetailView: View {
             let title: String
+            let id: UUID
             let imageURL: URL?
+            
+            @Binding var changedSectionTitle: (id: UUID, title: String)?
+            @State var text: String = ""
             
             var body: some View {
                 VStack {
-                    Text(title)
-                        .font(.title)
                     PosterView(imageURL: imageURL)
+                    TextField("섹션 제목을 입력하세요", text: $text)
+                        .font(.title)
+                        .multilineTextAlignment(.center)
+                        .padding()
                     Text(imageURL?.absoluteString ?? "-")
                 }
+                .onAppear(perform: onAppear)
+                .onDisappear(perform: onDisappear)
+            }
+            
+            private func onAppear() {
+                text = title
+            }
+            
+            private func onDisappear() {
+                changedSectionTitle = (id, text)
             }
         }
         
