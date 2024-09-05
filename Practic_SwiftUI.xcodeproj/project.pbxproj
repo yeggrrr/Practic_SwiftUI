@@ -22,6 +22,8 @@
 		681690A82C872A720062C50F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690A72C872A720062C50F /* DetailView.swift */; };
 		681690AE2C88531A0062C50F /* MyRandomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690AD2C88531A0062C50F /* MyRandomImageView.swift */; };
 		681690B02C88D1720062C50F /* SearchMovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681690AF2C88D1720062C50F /* SearchMovieView.swift */; };
+		68406FA32C89AD2000705F3E /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68406FA22C89AD2000705F3E /* NavigationLazyView.swift */; };
+		68406FA52C89C31D00705F3E /* LikeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68406FA42C89C31D00705F3E /* LikeListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		681690A72C872A720062C50F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		681690AD2C88531A0062C50F /* MyRandomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRandomImageView.swift; sourceTree = "<group>"; };
 		681690AF2C88D1720062C50F /* SearchMovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMovieView.swift; sourceTree = "<group>"; };
+		68406FA22C89AD2000705F3E /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
+		68406FA42C89C31D00705F3E /* LikeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +92,8 @@
 				681690A72C872A720062C50F /* DetailView.swift */,
 				681690AD2C88531A0062C50F /* MyRandomImageView.swift */,
 				681690AF2C88D1720062C50F /* SearchMovieView.swift */,
+				68406FA22C89AD2000705F3E /* NavigationLazyView.swift */,
+				68406FA42C89C31D00705F3E /* LikeListView.swift */,
 			);
 			path = Practic_SwiftUI;
 			sourceTree = "<group>";
@@ -180,9 +186,11 @@
 				681690902C86938C0062C50F /* PracticeView.swift in Sources */,
 				681690A22C87229A0062C50F /* CoinView.swift in Sources */,
 				681690A62C8726730062C50F /* Banner.swift in Sources */,
+				68406FA32C89AD2000705F3E /* NavigationLazyView.swift in Sources */,
 				6816908E2C85B4C70062C50F /* ButtonTestView.swift in Sources */,
 				681690882C859E450062C50F /* SecondProfileSettingView.swift in Sources */,
 				681690AE2C88531A0062C50F /* MyRandomImageView.swift in Sources */,
+				68406FA52C89C31D00705F3E /* LikeListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

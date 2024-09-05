@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DetailView: View {
-    let market: Market
+    let marketLike: MarketLike
     
     var body: some View {
         VStack {
-            Text(market.koreanName)
+            Text(marketLike.market.koreanName)
                 .fontWeight(.bold)
-            Text(market.market)
+            Text(marketLike.market.market)
                 .font(.caption)
                 .foregroundStyle(.gray)
         }
@@ -23,8 +23,10 @@ struct DetailView: View {
 
 #Preview {
     DetailView(
-        market: Market(
-            market: "market1",
-            koreanName: "koreanName1",
-            englishName: "englishName1"))
+        marketLike: MarketLike(
+            market: Market(
+                market: "market1",
+                koreanName: "koreanName1",
+                englishName: "englishName1"),
+            like: false))
 }

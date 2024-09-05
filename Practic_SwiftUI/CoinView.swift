@@ -7,14 +7,19 @@
 
 import SwiftUI
 
+struct MarketLike {
+    let market: Market
+    var like: Bool
+}
+
 struct CoinView: View {
     @State private var searchText = ""
     @State private var banner = Banner()
-    @State private var market: Markets = []
+    @State private var market: [MarketLike] = []
     
-    var filteredData: [Market] {
+    var filteredData: [MarketLike] {
         return searchText.isEmpty ? market : market.filter {
-            $0.koreanName.contains(searchText)
+            $0.market.koreanName.contains(searchText)
         }
     }
     
@@ -28,22 +33,33 @@ struct CoinView: View {
         }
         .task {
             UpbitAPI.fetchAllMarket { marketData in
-                market = marketData
+                market = marketData.map { MarketLike(market: $0, like: false) }
             }
             
             do {
                 let result = try await
                 UpbitAPI.fetchAllMarket()
-                market = result
+                market = result.map { MarketLike(market: $0, like: false)}
             } catch {
                 print("error: \(error)")
             }
         }
         .searchable(
-          text: $searchText,
-          placement: .navigationBarDrawer,
-          prompt: "Search.."
+            text: $searchText,
+            placement: .navigationBarDrawer,
+            prompt: "Search.."
         )
+    }
+    
+    func likeAction(marketLike: MarketLike) {
+        var index = 0
+        for i in 0..<market.count {
+            if market[i].market == marketLike.market {
+                index = i
+                break
+            }
+        }
+        market[index].like.toggle()
     }
     
     func bannerView() -> some View {
@@ -73,30 +89,47 @@ struct CoinView: View {
         .padding(.horizontal)
     }
     
-    func rowView(_ item: Market) -> some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(item.koreanName)
-                    .fontWeight(.bold)
+    struct RowView: View {
+        let marketLike: MarketLike
+        let likeAction: () -> Void
+        
+        var body: some View {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(marketLike.market.koreanName)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.black)
+                    Text(marketLike.market.market)
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                Spacer()
+                Text(marketLike.market.englishName)
                     .foregroundStyle(.black)
-                Text(item.market)
-                    .font(.caption)
-                    .foregroundStyle(.gray)
+                    .padding()
+                Button(action: {
+                    likeAction()
+                }, label: {
+                    Image(systemName: marketLike.like ? "heart.fill" : "heart")
+                })
             }
-            Spacer()
-            Text(item.englishName)
-                .foregroundStyle(.black)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 6)
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 6)
     }
     
     func listView() -> some View {
         LazyVStack {
-            ForEach(filteredData, id: \.self) { item in
+            ForEach(filteredData, id: \.market) { item in
                 NavigationLink(
-                    destination: { DetailView(market: item) },
-                    label: { rowView(item) })
+                    destination: {
+                        NavigationLazyView(DetailView(marketLike: item))
+                    },
+                    label: {
+                        NavigationLazyView(RowView(
+                            marketLike: item,
+                            likeAction: { likeAction(marketLike: item) }))
+                    })
             }
         }
     }
