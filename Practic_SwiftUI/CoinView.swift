@@ -7,27 +7,34 @@
 
 import SwiftUI
 
-struct MarketLike {
+struct MarketLike: Hashable, Identifiable {
+    let id = UUID()
     let market: Market
     var like: Bool
 }
 
 struct CoinView: View {
     @State private var searchText = ""
-    @State private var banner = Banner()
     @State private var market: [MarketLike] = []
-    
-    var filteredData: [MarketLike] {
-        return searchText.isEmpty ? market : market.filter {
-            $0.market.koreanName.contains(searchText)
-        }
-    }
+    @State private var filteredMarket: [MarketLike] = []
     
     var body: some View {
         NavigationView {
             ScrollView {
-                bannerView()
-                listView()
+                BannerView()
+                LazyVStack {
+                    ForEach(filteredMarket, id: \.id) { item in
+                        NavigationLink(
+                            destination: {
+                                NavigationLazyView(DetailView(marketLike: item))
+                            },
+                            label: {
+                                NavigationLazyView(RowView(
+                                    marketLike: item,
+                                    likeAction: { likeAction(marketLike: item) }))
+                            })
+                    }
+                }
             }
             .navigationTitle("My Money")
         }
@@ -39,7 +46,8 @@ struct CoinView: View {
             do {
                 let result = try await
                 UpbitAPI.fetchAllMarket()
-                market = result.map { MarketLike(market: $0, like: false)}
+                market = result.map { MarketLike(market: $0, like: false) }
+                filteredMarket = market
             } catch {
                 print("error: \(error)")
             }
@@ -49,9 +57,16 @@ struct CoinView: View {
             placement: .navigationBarDrawer,
             prompt: "Search.."
         )
+        .onChange(of: searchText, onSearchTextChanged)
     }
     
-    func likeAction(marketLike: MarketLike) {
+    private func onSearchTextChanged() {
+        filteredMarket = searchText.isEmpty ? market : market.filter {
+            $0.market.koreanName.contains(searchText)
+        }
+    }
+    
+    private func likeAction(marketLike: MarketLike) {
         var index = 0
         for i in 0..<market.count {
             if market[i].market == marketLike.market {
@@ -61,35 +76,45 @@ struct CoinView: View {
         }
         market[index].like.toggle()
     }
-    
-    func bannerView() -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 25)
-                .fill(banner.color)
-                .overlay(alignment: .leading) {
-                    Circle()
-                        .fill(.white.opacity(0.3))
-                        .scaleEffect(2)
-                        .offset(x: -50)
+}
+
+// MARK: BannerView
+extension CoinView {
+    private struct BannerView: View {
+        @State private var banner = Banner()
+        
+        var body: some View {
+            ZStack {
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(banner.color)
+                    .overlay(alignment: .leading) {
+                        Circle()
+                            .fill(.white.opacity(0.3))
+                            .scaleEffect(2)
+                            .offset(x: -50)
+                    }
+                
+                VStack(alignment: .leading) {
+                    Spacer()
+                    Text("나의 소비내역")
+                        .font(.callout)
+                    Text(banner.totalFormat)
+                        .font(.title).bold()
                 }
-            
-            VStack(alignment: .leading) {
-                Spacer()
-                Text("나의 소비내역")
-                    .font(.callout)
-                Text(banner.totalFormat)
-                    .font(.title).bold()
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                
             }
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            
+            .frame(height: 150)
+            .padding(.horizontal)
         }
-        .frame(height: 150)
-        .padding(.horizontal)
     }
-    
-    struct RowView: View {
+}
+
+// MARK: RowView
+extension CoinView {
+    private struct RowView: View {
         let marketLike: MarketLike
         let likeAction: () -> Void
         
@@ -115,22 +140,6 @@ struct CoinView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 6)
-        }
-    }
-    
-    func listView() -> some View {
-        LazyVStack {
-            ForEach(filteredData, id: \.market) { item in
-                NavigationLink(
-                    destination: {
-                        NavigationLazyView(DetailView(marketLike: item))
-                    },
-                    label: {
-                        NavigationLazyView(RowView(
-                            marketLike: item,
-                            likeAction: { likeAction(marketLike: item) }))
-                    })
-            }
         }
     }
 }
