@@ -10,29 +10,22 @@ import SwiftUI
 struct MarketLike: Hashable, Identifiable {
     let id = UUID()
     let market: Market
-    var like: Bool
+    var like: Bool = false
 }
 
 struct CoinView: View {
     @State private var searchText = ""
     @State private var market: [MarketLike] = []
-    @State private var filteredMarket: [MarketLike] = []
     
     var body: some View {
         NavigationView {
             ScrollView {
                 BannerView()
                 LazyVStack {
-                    ForEach(filteredMarket, id: \.id) { item in
-                        NavigationLink(
-                            destination: {
-                                NavigationLazyView(DetailView(marketLike: item))
-                            },
-                            label: {
-                                NavigationLazyView(RowView(
-                                    marketLike: item,
-                                    likeAction: { likeAction(marketLike: item) }))
-                            })
+                    if searchText.isEmpty {
+                        entireListView
+                    } else {
+                        filteredListView
                     }
                 }
             }
@@ -40,14 +33,12 @@ struct CoinView: View {
         }
         .task {
             UpbitAPI.fetchAllMarket { marketData in
-                market = marketData.map { MarketLike(market: $0, like: false) }
+                market = marketData.map { MarketLike(market: $0) }
             }
             
             do {
-                let result = try await
-                UpbitAPI.fetchAllMarket()
-                market = result.map { MarketLike(market: $0, like: false) }
-                filteredMarket = market
+                let result = try await UpbitAPI.fetchAllMarket()
+                market = result.map { MarketLike(market: $0) }
             } catch {
                 print("error: \(error)")
             }
@@ -57,24 +48,39 @@ struct CoinView: View {
             placement: .navigationBarDrawer,
             prompt: "Search.."
         )
-        .onChange(of: searchText, onSearchTextChanged)
     }
     
-    private func onSearchTextChanged() {
-        filteredMarket = searchText.isEmpty ? market : market.filter {
-            $0.market.koreanName.contains(searchText)
+    private var filteredMarketList: [MarketLike] {
+        return market.filter { $0.market.koreanName.contains(searchText) }
+    }
+    
+    
+    private var entireListView: some View {
+        ForEach($market, id: \.id) { $item in
+            NavigationLink(
+                destination: {
+                    NavigationLazyView(DetailView(marketLike: $item))
+                },
+                label: {
+                    NavigationLazyView(RowView(marketLike: $item))
+                })
         }
     }
     
-    private func likeAction(marketLike: MarketLike) {
-        var index = 0
-        for i in 0..<market.count {
-            if market[i].market == marketLike.market {
-                index = i
-                break
+    private var filteredListView: some View {
+        ForEach($market, id: \.id) { $item in
+            if filteredMarketList.contains(where: {
+                $0 == $item.wrappedValue
+            }) {
+                NavigationLink(
+                    destination: {
+                        NavigationLazyView(DetailView(marketLike: $item))
+                    },
+                    label: {
+                        NavigationLazyView(RowView(marketLike: $item))
+                    })
             }
         }
-        market[index].like.toggle()
     }
 }
 
@@ -115,8 +121,7 @@ extension CoinView {
 // MARK: RowView
 extension CoinView {
     private struct RowView: View {
-        let marketLike: MarketLike
-        let likeAction: () -> Void
+        @Binding var marketLike: MarketLike
         
         var body: some View {
             HStack {
@@ -132,14 +137,17 @@ extension CoinView {
                 Text(marketLike.market.englishName)
                     .foregroundStyle(.black)
                     .padding()
-                Button(action: {
-                    likeAction()
-                }, label: {
+                
+                Button(action: likeAction) {
                     Image(systemName: marketLike.like ? "heart.fill" : "heart")
-                })
+                }
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 6)
+        }
+        
+        private func likeAction() {
+            marketLike.like.toggle()
         }
     }
 }

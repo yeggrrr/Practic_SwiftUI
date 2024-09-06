@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    let marketLike: MarketLike
+    @Binding var marketLike: MarketLike
     
     var body: some View {
         VStack {
@@ -22,11 +22,10 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(
-        marketLike: MarketLike(
-            market: Market(
-                market: "market1",
-                koreanName: "koreanName1",
-                englishName: "englishName1"),
-            like: false))
+    DetailView(marketLike: .constant(MarketLike(
+        market: Market(
+            market: "marketEX",
+            koreanName: "koreanNameEX",
+            englishName: "EnglishNameEX"),
+        like: false)))
 }
